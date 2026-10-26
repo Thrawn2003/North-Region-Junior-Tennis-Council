@@ -4,32 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Northern Region Tennis Junior Council</title>
-  <meta name="description" content="The Northern Region Tennis Junior Council is a charitable organisation supporting the tennis community and the communities around it.">
+  <meta name="description" content="A charity supporting the tennis community and the communities around it.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-
-<header class="nav" id="nav">
-  <a class="brand" href="#top" aria-label="Northern Region Tennis Junior Council">
-    <span class="brand-mark" aria-hidden="true"></span>
-    <span class="brand-text"><strong>NRTJC</strong><small>Northern Region Tennis Junior Council</small></span>
-  </a>
-  <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
-  <nav id="navLinks">
-    <a href="#about">About</a>
-    <a href="#programs">Programs</a>
-    <a href="#events">Events</a>
-    <a href="#members">Members</a>
-    <a href="#contact" class="btn btn-small">Get involved</a>
-  </nav>
-</header>
-
-<main id="top">
-  <!-- HERO -->
-  <section class="hero">
+<body data-page="home">
+<main>
+  <section class="hero hero-simple">
     <div class="court" aria-hidden="true">
       <div class="court-lines"></div>
       <div class="ball"></div>
@@ -38,170 +21,46 @@
     <div class="hero-inner">
       <p class="eyebrow">A charity serving the tennis community</p>
       <h1>Tennis that <em>gives&nbsp;back</em> to the community.</h1>
-      <p class="lead">The Northern Region Tennis Junior Council is a charitable organisation. We open the doors of tennis to every family, support our clubs and volunteers, and use the game to strengthen the communities of the North.</p>
+      <p class="lead">The Northern Region Tennis Junior Council is a charitable organisation. We support the tennis community, open the game to every family, and use it to strengthen the communities of the North.</p>
       <div class="hero-cta">
-        <a href="#contact" class="btn">Get involved</a>
-        <a href="#members" class="btn btn-ghost">Meet our members</a>
+        <a href="get-involved.html" class="btn">Get involved</a>
+        <a href="about.html" class="btn btn-ghost">About the Council</a>
       </div>
     </div>
-    <a href="#about" class="scroll-cue" aria-label="Scroll down"><span></span></a>
+    <a href="#stand" class="scroll-cue" aria-label="Scroll down"><span></span></a>
   </section>
 
-  <!-- STATS -->
-  <section class="stats" aria-label="Council at a glance">
-    <div class="stat"><span class="num" data-count="450">0</span><span class="plus">+</span><span class="label">Junior players</span></div>
-    <div class="stat"><span class="num" data-count="32">0</span><span class="label">Partner clubs</span></div>
-    <div class="stat"><span class="num" data-count="18">0</span><span class="label">Community &amp; charity events</span></div>
-    <div class="stat"><span class="num" data-count="60">0</span><span class="plus">+</span><span class="label">Volunteers</span></div>
-  </section>
-
-  <!-- ABOUT -->
-  <section class="section" id="about">
-    <div class="wrap two-col">
-      <div class="reveal">
-        <p class="eyebrow dark">About the Council</p>
+  <section class="section" id="stand">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow dark">What we stand for</p>
         <h2>Supporting the tennis community, and the community beyond it.</h2>
       </div>
-      <div class="reveal">
-        <p>We are a charitable organisation, and tennis is how we serve. The Council exists to support the people who make the sport possible: families, clubs, coaches and volunteers. We also work to make sure no young person in the Northern Region is left on the sideline because of cost or circumstance.</p>
-        <ul class="pillars">
-          <li><span>01</span><div><h3>Generosity</h3><p>Giving our time, funds and equipment to those who need them most.</p></div></li>
-          <li><span>02</span><div><h3>Inclusion</h3><p>A welcoming court for every child, family and ability.</p></div></li>
-          <li><span>03</span><div><h3>Community</h3><p>Stronger clubs, stronger neighbourhoods, and a tennis family that looks after its own.</p></div></li>
-        </ul>
+      <div class="values">
+        <div class="value reveal"><span class="n">01</span><h3>Generosity</h3><p>Giving our time, funds and effort to those who need them most.</p></div>
+        <div class="value reveal"><span class="n">02</span><h3>Inclusion</h3><p>A welcoming court for every child, family and ability.</p></div>
+        <div class="value reveal"><span class="n">03</span><h3>Community</h3><p>Stronger clubs, stronger neighbourhoods, and a tennis family that looks after its own.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- PROGRAMS -->
-  <section class="section dark" id="programs">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <p class="eyebrow">How we give back</p>
-        <h2>Programs built around people, not just performance.</h2>
-      </div>
-      <div class="cards">
-        <article class="card reveal">
-          <div class="card-tag">Access</div>
-          <h3>Tennis for Everyone</h3>
-          <p>Free and subsidised places so cost is never the reason a child misses out on the game.</p>
-        </article>
-        <article class="card reveal">
-          <div class="card-tag">Fundraising</div>
-          <h3>Charity Tournaments</h3>
-          <p>Community tournaments and fun days where every entry helps local causes and families in need.</p>
-        </article>
-        <article class="card reveal">
-          <div class="card-tag">Equipment</div>
-          <h3>Racquet &amp; Gear Drive</h3>
-          <p>Donated racquets, balls and clothing collected, refreshed and passed on to young players.</p>
-        </article>
-        <article class="card reveal">
-          <div class="card-tag">Mentoring</div>
-          <h3>Volunteer &amp; Mentor Network</h3>
-          <p>Older juniors and club volunteers guiding younger players, and growing the next generation of givers.</p>
-        </article>
-      </div>
+  <section class="band">
+    <div class="wrap split reveal">
+      <div><h2>Meet our members.</h2><p>Our members share their stories and what tennis means to them through short slide presentations.</p></div>
+      <a href="members.html" class="btn btn-navy">View members</a>
     </div>
   </section>
 
-  <!-- EVENTS -->
-  <section class="section" id="events">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <p class="eyebrow dark">Calendar</p>
-        <h2>Upcoming events.</h2>
-      </div>
-      <ul class="events">
-        <li class="reveal"><time><b>NOV</b><span>15</span></time><div><h3>Northern Charity Junior Open</h3><p>Singles &amp; doubles · Entry supports local community causes</p></div><span class="chip">Registration open</span></li>
-        <li class="reveal"><time><b>DEC</b><span>06</span></time><div><h3>Holiday Racquet &amp; Gear Drive</h3><p>Drop off pre-loved equipment at any partner club</p></div><span class="chip">Donations open</span></li>
-        <li class="reveal"><time><b>JAN</b><span>24</span></time><div><h3>Community Play Day</h3><p>Free for families · All ages and abilities welcome</p></div><span class="chip alt">Opens soon</span></li>
-        <li class="reveal"><time><b>FEB</b><span>14</span></time><div><h3>Council Charity Gala &amp; Finals</h3><p>Finals, awards and a fundraising dinner for the community</p></div><span class="chip alt">Opens soon</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- MEMBERS -->
-  <section class="section members-section" id="members">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <p class="eyebrow dark">Member Showcase</p>
-        <h2>Meet our members.</h2>
-        <p class="sub">Every member shares their story through Canva slides. Select a member to view their presentation right here.</p>
-      </div>
-
-      <div class="toolbar reveal">
-        <input type="search" id="search" placeholder="Search members…" aria-label="Search members">
-        <button class="btn btn-small" id="addBtn">+ Add your profile</button>
-      </div>
-
-      <div class="member-grid" id="memberGrid"></div>
-      <p class="empty" id="empty" hidden>No members match your search.</p>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="section cta" id="contact">
+  <section class="section cta">
     <div class="wrap center reveal">
       <h2>Play, volunteer, or give.</h2>
-      <p>Every racquet donated, hour volunteered and entry fee paid helps the tennis community and the families around it. Get in touch to find out how you can take part.</p>
-      <a class="btn" href="mailto:info@nrtjc.example">info@nrtjc.example</a>
+      <p>Every hour volunteered and every gift made helps the tennis community and the families around it.</p>
+      <a href="get-involved.html" class="btn">See how to help</a>
     </div>
   </section>
 </main>
 
-<footer class="footer">
-  <div class="wrap footer-in">
-    <div><strong>Northern Region Tennis Junior Council</strong><br><small>A charity supporting the tennis community.</small></div>
-    <small>&copy; <span id="year"></span> NRTJC. All rights reserved.</small>
-  </div>
-</footer>
-
-<!-- SLIDE VIEWER -->
-<div class="modal" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerName" hidden>
-  <div class="modal-backdrop" data-close></div>
-  <div class="modal-panel viewer-panel">
-    <button class="modal-close" data-close aria-label="Close">&times;</button>
-    <div class="viewer-head">
-      <div class="avatar" id="viewerAvatar"></div>
-      <div>
-        <h3 id="viewerName"></h3>
-        <p id="viewerMeta"></p>
-      </div>
-    </div>
-    <div class="viewer-tabs" id="viewerTabs" role="tablist"></div>
-    <div class="viewer-stage" id="viewerStage"></div>
-  </div>
-</div>
-
-<!-- ADD MEMBER -->
-<div class="modal" id="addModal" role="dialog" aria-modal="true" aria-labelledby="addTitle" hidden>
-  <div class="modal-backdrop" data-close></div>
-  <div class="modal-panel form-panel">
-    <button class="modal-close" data-close aria-label="Close">&times;</button>
-    <h3 id="addTitle">Add your profile</h3>
-    <p class="hint">In Canva, open your design → <b>Share</b> → <b>More</b> → <b>Embed</b> (or copy the public view link) and paste it below. You can add one or two slides.</p>
-    <form id="addForm" novalidate>
-      <label>Name<input name="name" required maxlength="60" autocomplete="off"></label>
-      <div class="row">
-        <label>Age group / role<input name="role" placeholder="e.g. U14 Player" maxlength="40"></label>
-        <label>Club<input name="club" placeholder="e.g. Ridgeview TC" maxlength="40"></label>
-      </div>
-      <label>Slide 1 — title<input name="t1" placeholder="e.g. My Tennis Journey" maxlength="50"></label>
-      <label>Slide 1 — Canva link<input name="u1" placeholder="https://www.canva.com/design/…" inputmode="url"></label>
-      <label>Slide 2 (optional) — title<input name="t2" placeholder="e.g. Goals &amp; Highlights" maxlength="50"></label>
-      <label>Slide 2 (optional) — Canva link<input name="u2" placeholder="https://www.canva.com/design/…" inputmode="url"></label>
-      <p class="error" id="formError" role="alert" hidden></p>
-      <div class="form-actions">
-        <button type="button" class="btn btn-ghost-dark" data-close>Cancel</button>
-        <button type="submit" class="btn">Save profile</button>
-      </div>
-      <p class="hint small">Profiles added here are saved in this browser only. To publish one for everyone, add it to <code>members.js</code>.</p>
-    </form>
-  </div>
-</div>
-
-<script src="members.js"></script>
-<script src="app.js"></script>
+<script src="site-config.js"></script>
+<script src="layout.js"></script>
 </body>
 </html>

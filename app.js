@@ -72,7 +72,10 @@
       shown++;
       grid.appendChild(card(m));
     });
+    var any = allMembers().length > 0;
     empty.hidden = shown > 0;
+    $("#noMatches").hidden = !any;
+    $("#noMembers").hidden = any;
   }
 
   function card(m) {
@@ -213,43 +216,5 @@
     $("#members").scrollIntoView();
   });
 
-  // ---------- nav ----------
-  var nav = $("#nav"), toggle = $("#navToggle"), links = $("#navLinks");
-  function onScroll() { nav.classList.toggle("scrolled", window.scrollY > 40); }
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-  toggle.addEventListener("click", function () {
-    var open = links.classList.toggle("open");
-    toggle.setAttribute("aria-expanded", String(open));
-  });
-  links.addEventListener("click", function (e) {
-    if (e.target.tagName === "A") { links.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); }
-  });
-
-  // ---------- reveal + counters ----------
-  function countUp(node) {
-    var target = +node.dataset.count, start = performance.now(), dur = 1400;
-    (function tick(now) {
-      var p = Math.min((now - start) / dur, 1);
-      node.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(tick);
-    })(start);
-  }
-  if ("IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        en.target.classList.add("in");
-        en.target.querySelectorAll("[data-count]").forEach(countUp);
-        io.unobserve(en.target);
-      });
-    }, { threshold: 0.15 });
-    document.querySelectorAll(".reveal, .stats").forEach(function (n) { io.observe(n); });
-  } else {
-    document.querySelectorAll(".reveal").forEach(function (n) { n.classList.add("in"); });
-    document.querySelectorAll("[data-count]").forEach(function (n) { n.textContent = n.dataset.count; });
-  }
-
-  $("#year").textContent = new Date().getFullYear();
   render();
 })();

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Members – Northern Region Tennis Junior Council</title>
+  <meta name="description" content="Meet our members through their Canva slide presentations.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="members">
+<header class="page-hero"><div class="wrap">
+  <p class="eyebrow">Member showcase</p>
+  <h1>Meet our members.</h1>
+  <p>Every member shares their story through Canva slides. Select a member to view their presentation right here.</p>
+</div></header>
+<main>
+  <section class="section members-section">
+    <div class="wrap">
+      <div class="toolbar">
+        <input type="search" id="search" placeholder="Search members…" aria-label="Search members">
+        <button class="btn btn-small" id="addBtn">+ Add your profile</button>
+      </div>
+      <div class="member-grid" id="memberGrid"></div>
+      <div class="empty-state" id="empty" hidden>
+        <div class="ico">🎾</div>
+        <p id="noMatches" hidden>No members match your search.</p>
+        <div id="noMembers" hidden>
+          <h3>No member profiles yet</h3>
+          <p>Be the first to share your story. Add your profile with a link to your Canva slides.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- SLIDE VIEWER -->
+<div class="modal" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerName" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel viewer-panel">
+    <button class="modal-close" data-close aria-label="Close">&times;</button>
+    <div class="viewer-head">
+      <div class="avatar" id="viewerAvatar"></div>
+      <div>
+        <h3 id="viewerName"></h3>
+        <p id="viewerMeta"></p>
+      </div>
+    </div>
+    <div class="viewer-tabs" id="viewerTabs" role="tablist"></div>
+    <div class="viewer-stage" id="viewerStage"></div>
+  </div>
+</div>
+
+<!-- ADD MEMBER -->
+<div class="modal" id="addModal" role="dialog" aria-modal="true" aria-labelledby="addTitle" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel form-panel">
+    <button class="modal-close" data-close aria-label="Close">&times;</button>
+    <h3 id="addTitle">Add your profile</h3>
+    <p class="hint">In Canva, open your design → <b>Share</b> → <b>More</b> → <b>Embed</b> (or copy the public view link) and paste it below. You can add one or two slides.</p>
+    <form id="addForm" novalidate>
+      <label>Name<input name="name" required maxlength="60" autocomplete="off"></label>
+      <div class="row">
+        <label>Age group / role<input name="role" placeholder="e.g. Player, Volunteer" maxlength="40"></label>
+        <label>Club<input name="club" placeholder="Your tennis club" maxlength="40"></label>
+      </div>
+      <label>Slide 1 — title<input name="t1" placeholder="Title for your first slide" maxlength="50"></label>
+      <label>Slide 1 — Canva link<input name="u1" placeholder="https://www.canva.com/design/…" inputmode="url"></label>
+      <label>Slide 2 (optional) — title<input name="t2" placeholder="Title for your second slide" maxlength="50"></label>
+      <label>Slide 2 (optional) — Canva link<input name="u2" placeholder="https://www.canva.com/design/…" inputmode="url"></label>
+      <p class="error" id="formError" role="alert" hidden></p>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost-dark" data-close>Cancel</button>
+        <button type="submit" class="btn">Save profile</button>
+      </div>
+      <p class="hint small">Profiles added here are saved in this browser only. To publish one for everyone, add it to <code>members.js</code>.</p>
+    </form>
+  </div>
+</div>
+
+
+<script src="site-config.js"></script>
+<script src="members.js"></script>
+<script src="app.js"></script>
+<script src="layout.js"></script>
+</body>
+</html>
