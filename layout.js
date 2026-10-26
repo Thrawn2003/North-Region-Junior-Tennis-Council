@@ -73,7 +73,10 @@
     el("em", { class: "signoff", text: "Love all." })
   ]);
   right.style.textAlign = "right";
-  document.body.appendChild(el("footer", { class: "footer" }, [el("div", { class: "wrap footer-in" }, [left, right])]));
+  document.body.appendChild(el("footer", { class: "footer" }, [
+    el("span", { class: "runner", "aria-hidden": "true" }),
+    el("div", { class: "wrap footer-in" }, [left, right])
+  ]));
 
   // ---------- config-driven buttons ----------
   // <a data-config="contact"> and <a data-config="donate"> only show when the detail is set.
@@ -90,17 +93,30 @@
     }
   });
 
-  // ---------- scroll reveal ----------
+  // ---------- scroll reveal (replays every time an element returns to view) ----------
   var items = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window) {
+    items.forEach(function (n) {
+      var idx = Array.prototype.indexOf.call(n.parentNode.children, n);
+      n._delay = Math.min(idx, 6) * 70 + "ms";
+      n.style.transitionDelay = n._delay;
+    });
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        en.target.classList.add("in");
-        io.unobserve(en.target);
-        setTimeout(function () { en.target.classList.remove("reveal", "in"); }, 900);
+        var t = en.target;
+        if (en.intersectionRatio >= 0.12) {
+          clearTimeout(t._retire);
+          t.classList.add("reveal", "in");
+          // hand control back to hover styles once the entrance has finished
+          t._retire = setTimeout(function () { t.classList.remove("reveal", "in"); t.style.transitionDelay = ""; }, 1300);
+        } else if (!en.isIntersecting) {
+          clearTimeout(t._retire);
+          t.style.transitionDelay = t._delay;
+          t.classList.add("reveal");
+          t.classList.remove("in");
+        }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: [0, 0.12] });
     items.forEach(function (n) { io.observe(n); });
   } else {
     items.forEach(function (n) { n.classList.add("in"); });

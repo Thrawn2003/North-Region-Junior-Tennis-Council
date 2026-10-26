@@ -100,10 +100,12 @@
   // ---------- the ball that hops over the net ----------
   document.querySelectorAll(".net").forEach(function (net) {
     if (reduce || !("IntersectionObserver" in window)) { net.classList.add("go"); return; }
-    var io = new IntersectionObserver(function (en) {
-      if (en[0].isIntersecting) { net.classList.add("go"); io.disconnect(); }
-    }, { threshold: 0.8 });
-    io.observe(net);
+    // plays each time the net scrolls back into view
+    new IntersectionObserver(function (en) {
+      var r = en[0].intersectionRatio;
+      if (r >= 0.8) net.classList.add("go");
+      else if (r === 0) net.classList.remove("go");
+    }, { threshold: [0, 0.8] }).observe(net);
   });
 
   // ---------- a polite nudge when you leave the tab ----------
@@ -232,10 +234,31 @@
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); hit(); }
     });
 
+    function reset() {
+      x = W - Math.max(70, W * 0.16) - R; y = ceil;
+      vx = vy = 0; squash = 0; restT = 0; rally = 0;
+      hud.classList.remove("on"); hudText.textContent = "Tap or flick the ball";
+    }
+    // leaving the hero and coming back drops the ball in fresh and redraws the court
     new IntersectionObserver(function (en) {
-      running = en[0].isIntersecting;
-      if (running) { last = performance.now(); requestAnimationFrame(frame); }
+      var vis = en[0].isIntersecting;
+      hero.classList.toggle("out", !vis);
+      if (vis && !running) { reset(); last = performance.now(); running = true; requestAnimationFrame(frame); }
+      running = vis;
     }).observe(hero);
+
+    var lastRipple = 0;
+    function ripple(cx, cy) {
+      var now = performance.now();
+      if (!hero.animate || now - lastRipple < 160) return;
+      lastRipple = now;
+      var r = document.createElement("span");
+      r.className = "ripple";
+      r.style.left = cx + "px"; r.style.top = cy + "px";
+      hero.appendChild(r);
+      var a = r.animate([{ transform: "scale(.2)", opacity: .7 }, { transform: "scale(1.7)", opacity: 0 }], { duration: 750, easing: "ease-out" });
+      a.onfinish = function () { r.remove(); };
+    }
 
     function frame(now) {
       if (!running) return;
@@ -252,6 +275,7 @@
           var impact = vy;
           y = floor; vy = -vy * REST; vx *= 0.92;
           if (impact > 250) squash = Math.min(impact / 1700, 0.34);
+          if (impact > 420) ripple(x, floor + R - 4);
           if (Math.abs(vy) < 230) {
             vy = 0; restT += dt;
             if (restT > 0.8) { vy = -(pop() * 0.88 + Math.random() * pop() * 0.18); vx = (Math.random() - 0.5) * 120; restT = 0; }
