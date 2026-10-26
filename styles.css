@@ -391,3 +391,50 @@ img { max-width: 100%; }
 .footer-links a:hover { color: var(--ball); }
 
 @media (max-width: 900px) { .values { grid-template-columns: 1fr; } }
+
+/* ---------- Whimsy ---------- */
+/* hero ball is driven by fun.js; without JS the CSS bounce above still runs */
+.ball.live {
+  left: 0; top: 0; right: auto; z-index: 3; animation: none; cursor: grab; touch-action: none;
+  will-change: transform; transform: translate(-200px, -200px);
+}
+.ball.live.held { cursor: grabbing; }
+.ball.live:focus-visible { outline: 3px solid var(--white); outline-offset: 4px; }
+.ball-shadow.live { left: 0; top: 0; right: auto; animation: none; z-index: 2; will-change: transform; transform: translate(-200px, -200px); }
+
+.rally {
+  position: absolute; right: 28px; bottom: 30px; z-index: 3; pointer-events: none; text-align: right;
+  font: 600 .72rem/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.5);
+  transition: color .3s;
+}
+.rally.on { color: var(--ball); }
+@media (max-width: 720px) { .rally { right: 16px; bottom: 74px; } }
+
+/* thin scroll line with a rolling ball */
+.progress { position: fixed; z-index: 60; left: 0; right: 0; top: 0; height: 14px; pointer-events: none; }
+.progress i { position: absolute; left: 0; top: 0; height: 3px; background: var(--ball); box-shadow: 0 0 10px rgba(214,240,60,.6); }
+.progress b {
+  position: absolute; top: -4px; left: 0; width: 14px; height: 14px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%, #f1ff7a, var(--ball) 60%, var(--ball-dark));
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+}
+.progress b::before {
+  content: ""; position: absolute; inset: 2px -5px; border: 1.5px solid rgba(255,255,255,.9); border-radius: 50%;
+  clip-path: inset(0 7px);
+}
+
+/* logo ball spins on hover */
+.brand-mark { transition: transform .7s cubic-bezier(.2,.8,.3,1); }
+.brand:hover .brand-mark { transform: rotate(360deg); }
+
+/* court lines draw in on load */
+.court-lines { animation: courtIn 1.6s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes courtIn { from { opacity: 0; transform: translateX(-50%) rotateX(62deg) translateY(60px) scale(.94); } }
+
+/* section eyebrow rules extend as they scroll into view */
+.reveal .eyebrow::before { width: 0; transition: width .9s .2s cubic-bezier(.2,.7,.2,1); }
+.reveal.in .eyebrow::before { width: 34px; }
+
+/* empty-state ball hops */
+.empty-state .ico { display: inline-block; animation: hop 2.2s cubic-bezier(.3,0,.4,1) infinite; }
+@keyframes hop { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-14px); } 55% { transform: translateY(0) scale(1.08, .92); } }

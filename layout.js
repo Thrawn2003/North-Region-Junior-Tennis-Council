@@ -96,6 +96,7 @@
         if (!en.isIntersecting) return;
         en.target.classList.add("in");
         io.unobserve(en.target);
+        setTimeout(function () { en.target.classList.remove("reveal", "in"); }, 900);
       });
     }, { threshold: 0.12 });
     items.forEach(function (n) { io.observe(n); });
