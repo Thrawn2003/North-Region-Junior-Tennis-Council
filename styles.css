@@ -579,3 +579,78 @@ img { max-width: 100%; }
   .wi { transform: none !important; }
   .runner { display: none; }
 }
+
+/* ---------- Even more ---------- */
+/* page-transition wipe */
+.wipe { position: fixed; inset: 0; z-index: 999; background: var(--ball); pointer-events: none; }
+html.wiping::before { content: ""; position: fixed; inset: 0; z-index: 998; background: var(--ball); animation: wipeFailsafe 0s 1.6s forwards; }
+@keyframes wipeFailsafe { to { visibility: hidden; } }
+
+/* word ticker */
+.marquee { background: var(--cream); border-bottom: 1px solid var(--line); overflow: hidden; padding: 22px 0; white-space: nowrap; position: relative; z-index: 1; }
+.mq-track { display: inline-flex; align-items: center; gap: 30px; will-change: transform; padding-left: 30px; }
+.mq-w { font: italic 700 clamp(1.7rem, 3.6vw, 2.8rem)/1 var(--serif); color: transparent; -webkit-text-stroke: 1.2px var(--navy); }
+.mq-w:nth-of-type(3n) { color: var(--navy); -webkit-text-stroke: 0; }
+.mq-ball {
+  flex: none; width: 15px; height: 15px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%, #f1ff7a, var(--ball) 60%, var(--ball-dark));
+}
+
+/* chalk-line under headings, drawn when the words arrive */
+.section-head h2::after, .prose h2::after, .split h2::after, .sb-head h2::after, .two-col h2::after, .cta h2::after {
+  content: ""; display: block; height: 3px; width: 0; margin-top: 16px; background: var(--court); border-radius: 2px;
+  transition: width .9s .55s cubic-bezier(.2,.7,.2,1);
+}
+.center h2::after { margin-left: auto; margin-right: auto; }
+.words-in.section-head h2::after, h2.words-in::after { width: 64px; }
+.section.dark h2::after, .sb-head h2::after, .cta h2::after { background: var(--ball); }
+/* the hero's italic word gets a hand-drawn underline */
+.hero h1 em, .page-hero h1 em {
+  background: linear-gradient(var(--ball), var(--ball)) no-repeat 0 94% / 0% 4px; transition: background-size 1s 1s cubic-bezier(.2,.7,.2,1);
+}
+.hero h1.words-in em, .page-hero h1.words-in em { background-size: 100% 4px; }
+
+/* cursor halo */
+.halo {
+  position: fixed; left: 0; top: 0; width: 34px; height: 34px; border-radius: 50%; z-index: 90; pointer-events: none;
+  border: 2px solid #fff; mix-blend-mode: difference; opacity: 0; transition: opacity .3s, width .25s, height .25s, margin .25s, background .25s;
+}
+.halo.show { opacity: .9; }
+.halo.big { width: 54px; height: 54px; margin: -10px 0 0 -10px; background: #fff; opacity: .55; }
+
+/* magnetic buttons */
+.btn { transform: translate(var(--mx, 0px), var(--my, 0px)); }
+.btn:hover { transform: translate(var(--mx, 0px), calc(var(--my, 0px) - 2px)); }
+.btn:active { transform: translate(var(--mx, 0px), var(--my, 0px)) scale(.96); }
+
+/* chalk puff on click */
+.chalk { position: absolute; width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(214,240,60,.9); box-shadow: 0 0 0 1px rgba(11,31,58,.25); }
+
+/* floating parallax balls */
+.scoreboard, .cta, .section.dark { overflow: hidden; }
+.float-ball {
+  position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; will-change: transform;
+  background: radial-gradient(circle at 32% 30%, #f1ff7a, var(--ball) 60%, var(--ball-dark));
+}
+.scoreboard > .wrap, .cta > .wrap, .section.dark > .wrap { position: relative; z-index: 1; }
+
+/* the "Love all." sign-off is a button */
+.signoff.playable { cursor: pointer; border-bottom: 1px dotted rgba(214,240,60,.6); }
+.signoff.playable:hover { color: #fff; }
+
+/* the Serve game */
+.sg-hud {
+  position: fixed; left: 50%; top: 84px; transform: translateX(-50%); padding: 10px 22px; border-radius: 999px;
+  background: var(--navy); color: var(--ball); font: 700 .85rem/1 var(--sans); letter-spacing: .18em; text-transform: uppercase;
+  box-shadow: 0 12px 30px rgba(0,0,0,.35); white-space: nowrap;
+}
+.sg-hud.done { background: var(--ball); color: var(--navy); letter-spacing: .08em; text-transform: none; font-size: 1rem; font-family: var(--serif); }
+.sg-ball {
+  position: absolute; left: 0; width: 46px; height: 46px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; pointer-events: auto;
+  background: radial-gradient(circle at 32% 30%, #f1ff7a, var(--ball) 55%, var(--ball-dark)); box-shadow: 0 8px 18px rgba(0,0,0,.35);
+}
+
+@media (hover: none) { .halo { display: none; } }
+@media (prefers-reduced-motion: reduce) { .marquee { overflow-x: auto; } .float-ball { display: none; } }
+
+.cta, .section.dark { position: relative; }
