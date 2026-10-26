@@ -481,3 +481,12 @@ img { max-width: 100%; }
 /* avatars hop when their card is hovered */
 .member:hover .avatar, .member:focus-visible .avatar { animation: avatarHop .55s cubic-bezier(.3,0,.4,1); }
 @keyframes avatarHop { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-9px); } 62% { transform: translateY(0) scale(1.06, .94); } }
+
+/* ---------- Spacing fix + inner-page ball ---------- */
+.band { padding: 76px 0; }
+@media (max-width: 720px) { .band { padding: 52px 0; } }
+
+.page-hero .ball { width: 46px; height: 46px; }
+.page-hero .ball-shadow { width: 58px; height: 12px; }
+.page-hero .rally { bottom: 24px; }
+@media (max-width: 720px) { .page-hero .rally { bottom: 22px; right: 16px; } }

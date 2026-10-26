@@ -116,11 +116,19 @@
   })();
 
   // ---------- hero ball: tap it, or flick it ----------
-  (function heroBall() {
-    var hero = document.querySelector(".hero");
-    var ball = hero && hero.querySelector(".ball");
-    var shadow = hero && hero.querySelector(".ball-shadow");
-    if (!ball || !shadow || reduce) return;
+  document.querySelectorAll(".hero, .page-hero").forEach(initBall);
+
+  function initBall(hero) {
+    if (reduce) return;
+    var small = hero.classList.contains("page-hero");
+    var ball = hero.querySelector(".ball");
+    var shadow = hero.querySelector(".ball-shadow");
+    if (!ball || !shadow) {
+      // inner pages get their own, smaller ball
+      shadow = document.createElement("span"); shadow.className = "ball-shadow";
+      ball = document.createElement("span"); ball.className = "ball";
+      hero.appendChild(shadow); hero.appendChild(ball);
+    }
 
     // lift the ball out of the decorative court so it sits above the text and can take clicks
     hero.appendChild(shadow);
@@ -150,9 +158,9 @@
       R = ball.offsetWidth / 2 || R;
       W = hero.clientWidth;
       H = hero.clientHeight;
-      floor = H - 110 - R;
-      ceil = 84 + R;
-      if (floor < ceil + 120) floor = ceil + 120;
+      floor = H - (small ? 28 : 110) - R;
+      ceil = (small ? 78 : 84) + R;
+      if (floor < ceil + (small ? 90 : 120)) floor = ceil + (small ? 90 : 120);
     }
     bounds();
     x = W - Math.max(70, W * 0.16) - R;
@@ -173,8 +181,10 @@
       else if (rally === 5) say("Rally · 5 · Nicely struck.");
       else say("Rally · " + rally);
     }
+    // launch speed that fits the space available (capped for the tall home hero)
+    function pop() { return Math.min(1250, Math.sqrt(2 * GRAVITY * Math.max(floor - ceil, 1) * 0.8)); }
     function hit() {
-      vy = -(1250 + Math.random() * 250);
+      vy = -(pop() + Math.random() * pop() * 0.2);
       vx = (Math.random() - 0.5) * 600;
       squash = 0.12;
       registerHit();
@@ -244,7 +254,7 @@
           if (impact > 250) squash = Math.min(impact / 1700, 0.34);
           if (Math.abs(vy) < 230) {
             vy = 0; restT += dt;
-            if (restT > 0.8) { vy = -(1100 + Math.random() * 220); vx = (Math.random() - 0.5) * 120; restT = 0; }
+            if (restT > 0.8) { vy = -(pop() * 0.88 + Math.random() * pop() * 0.18); vx = (Math.random() - 0.5) * 120; restT = 0; }
           } else { restT = 0; }
         }
         rot += (vx * dt / R) * 57.3;
@@ -255,7 +265,7 @@
       ball.style.transform = "translate(" + (x - R) + "px," + (y - R + squash * R) + "px) rotate(" + rot + "deg) scale(" + sx + "," + sy + ")";
 
       var t = clamp(1 - (floor - y) / Math.max(floor - ceil, 1), 0, 1);
-      shadow.style.transform = "translate(" + (x - 43) + "px," + (floor + R - 10) + "px) scale(" + (0.4 + 0.6 * t) + ")";
+      shadow.style.transform = "translate(" + (x - shadow.offsetWidth / 2) + "px," + (floor + R - 10) + "px) scale(" + (0.4 + 0.6 * t) + ")";
       shadow.style.opacity = String(0.12 + 0.43 * t);
 
       if (rally > 0 && performance.now() - lastHit > 6000) {
@@ -266,5 +276,5 @@
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
-  })();
+  }
 })();
