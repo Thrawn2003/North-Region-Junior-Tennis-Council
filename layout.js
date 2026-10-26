@@ -68,7 +68,9 @@
   var right = el("div", {}, [
     cfg.charityNumber ? el("small", { text: cfg.charityNumber }) : null,
     cfg.charityNumber ? el("br") : null,
-    el("small", { text: "© " + new Date().getFullYear() + " NRTJC. All rights reserved." })
+    el("small", { text: "© " + new Date().getFullYear() + " NRTJC. All rights reserved." }),
+    el("br"),
+    el("em", { class: "signoff", text: "Love all." })
   ]);
   right.style.textAlign = "right";
   document.body.appendChild(el("footer", { class: "footer" }, [el("div", { class: "wrap footer-in" }, [left, right])]));

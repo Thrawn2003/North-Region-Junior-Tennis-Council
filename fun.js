@@ -45,6 +45,76 @@
     });
   })();
 
+  // ---------- little balls that pop up when you click empty court ----------
+  // `ground` is where the ball lands; it starts `drop` px above it and bounces down to rest.
+  function spawnMini(host, x, ground, drop, delay) {
+    if (reduce || !host.animate) return;
+    var b = document.createElement("span");
+    b.className = "mini";
+    b.style.left = x + "px"; b.style.top = ground + "px";
+    host.appendChild(b);
+
+    var peaks = drop ? [drop, 46, 18, 7] : [0, 96, 44, 16];
+    var drift = (Math.random() - 0.5) * 220;
+    var DOWN = "cubic-bezier(.6,0,.8,.4)", UP = "cubic-bezier(.2,.7,.4,1)";
+    var frames = [], t = 0, weights = [], total = 0, i;
+    // time per segment ~ sqrt(height), as real falls are
+    var segs = [];
+    for (i = 0; i < peaks.length; i++) {
+      var h = Math.max(peaks[i], 8);
+      var w = Math.sqrt(h);
+      if (i === 0 && !drop) { segs.push({ y0: 0, y1: -peaks[1], w: Math.sqrt(peaks[1]), e: UP }); continue; }
+      if (i === 0) { segs.push({ y0: -drop, y1: 0, w: w, e: DOWN }); continue; }
+      if (i === 1 && !drop) { segs.push({ y0: -peaks[1], y1: 0, w: Math.sqrt(peaks[1]), e: DOWN }); continue; }
+      segs.push({ y0: 0, y1: -h, w: w, e: UP });
+      segs.push({ y0: -h, y1: 0, w: w, e: DOWN });
+    }
+    segs.forEach(function (s) { total += s.w; });
+    var x0 = drop ? 0 : 0;
+    frames.push({ transform: "translate(0px," + segs[0].y0 + "px) rotate(0deg)", offset: 0, easing: segs[0].e, opacity: 1 });
+    segs.forEach(function (s, k) {
+      t += s.w / total;
+      var last = k === segs.length - 1;
+      frames.push({
+        transform: "translate(" + (drift * t) + "px," + s.y1 + "px) rotate(" + (drift * t * 1.5) + "deg)",
+        offset: last ? 0.82 : t * 0.82,
+        easing: k + 1 < segs.length ? segs[k + 1].e : "linear",
+        opacity: 1
+      });
+    });
+    frames.push({ transform: frames[frames.length - 1].transform, offset: 1, opacity: 0 });
+    var a = b.animate(frames, { duration: 1700 + (drop ? 600 : 0), delay: delay || 0, fill: "both" });
+    a.onfinish = function () { b.remove(); };
+  }
+  window.NRTJC_spawnMini = spawnMini;
+
+  document.querySelectorAll(".hero, .page-hero").forEach(function (host) {
+    host.style.position = "relative";
+    host.addEventListener("click", function (e) {
+      if (e.target.closest("a, button, input, .ball, .rally")) return;
+      var r = host.getBoundingClientRect();
+      spawnMini(host, e.clientX - r.left, e.clientY - r.top, 0, 0);
+    });
+  });
+
+  // ---------- the ball that hops over the net ----------
+  document.querySelectorAll(".net").forEach(function (net) {
+    if (reduce || !("IntersectionObserver" in window)) { net.classList.add("go"); return; }
+    var io = new IntersectionObserver(function (en) {
+      if (en[0].isIntersecting) { net.classList.add("go"); io.disconnect(); }
+    }, { threshold: 0.8 });
+    io.observe(net);
+  });
+
+  // ---------- a polite nudge when you leave the tab ----------
+  (function titleNudge() {
+    var original = document.title;
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) { original = document.title; document.title = "Your serve… come back soon"; }
+      else document.title = original;
+    });
+  })();
+
   // ---------- hero ball: tap it, or flick it ----------
   (function heroBall() {
     var hero = document.querySelector(".hero");
@@ -89,12 +159,17 @@
     y = ceil;
     window.addEventListener("resize", function () { bounds(); x = clamp(x, R, W - R); y = clamp(y, ceil, floor); });
 
+    function shower(n) {
+      for (var k = 0; k < n; k++) {
+        spawnMini(hero, 30 + Math.random() * (W - 60), floor + R, floor + R - 90, k * 90);
+      }
+    }
     function say(text) { hudText.textContent = text; hud.classList.add("on"); }
     function registerHit() {
       rally++;
       lastHit = performance.now();
-      if (rally === 10) say("Rally of ten. Impressive.");
-      else if (rally === 25) say("Championship form.");
+      if (rally === 10) { say("Rally of ten. Impressive."); shower(14); }
+      else if (rally === 25) { say("Championship form."); shower(28); }
       else if (rally === 5) say("Rally · 5 · Nicely struck.");
       else say("Rally · " + rally);
     }
