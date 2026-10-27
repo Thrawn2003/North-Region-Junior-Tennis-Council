@@ -119,6 +119,40 @@
     update();
   })();
 
+  // ---------- a visible spot for secret codes (footer) ----------
+  (function codeBox() {
+    var host = document.querySelector(".footer-in > div:last-child");
+    if (!host) return;
+    var form = make("form", "codebox");
+    form.setAttribute("autocomplete", "off");
+    var input = make("input");
+    input.type = "text"; input.name = "code"; input.maxLength = 12;
+    input.placeholder = "Got a code?";
+    input.setAttribute("aria-label", "Secret code");
+    input.setAttribute("autocapitalize", "off"); input.spellcheck = false;
+    var go = make("button", "", "Play");
+    go.type = "submit";
+    var msg = make("small", "codemsg", "Try: ace, rain or serve");
+    msg.setAttribute("aria-live", "polite");
+    form.appendChild(input); form.appendChild(go);
+    host.appendChild(form); host.appendChild(msg);
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var code = input.value.trim().toLowerCase();
+      input.value = "";
+      if (!code) return;
+      var codes = window.NRTJC_codes || {};
+      if (reduce) { msg.textContent = "Motion is switched off on your device, so the codes are resting."; return; }
+      if (codes[code]) {
+        msg.textContent = "Nice. Enjoy.";
+        codes[code]();
+      } else {
+        msg.textContent = "Out! Not a code. Try ace, rain or serve.";
+      }
+    });
+  })();
+
   if (reduce) { // keep the quiet, non-moving parts only
     wireSignoff();
     return;
@@ -230,6 +264,8 @@
     s.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); serveGame(); } });
   }
   wireSignoff();
+  window.NRTJC_codes = window.NRTJC_codes || {};
+  window.NRTJC_codes.serve = serveGame;
 
   var buf = "";
   document.addEventListener("keydown", function (e) {

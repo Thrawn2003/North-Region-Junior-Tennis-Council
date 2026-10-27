@@ -166,6 +166,8 @@
     var ground = window.innerHeight - 36;
     for (var k = 0; k < 28; k++) spawn(fx, 20 + Math.random() * (window.innerWidth - 40), ground, ground - 10, k * 70);
   }
+  window.NRTJC_codes = { ace: ace, rain: rain };
+
   var buf = "";
   document.addEventListener("keydown", function (e) {
     if (e.ctrlKey || e.metaKey || e.altKey || e.key.length !== 1) return;

@@ -654,3 +654,17 @@ html.wiping::before { content: ""; position: fixed; inset: 0; z-index: 998; back
 @media (prefers-reduced-motion: reduce) { .marquee { overflow-x: auto; } .float-ball { display: none; } }
 
 .cta, .section.dark { position: relative; }
+
+/* code box in the footer */
+.codebox { display: inline-flex; margin-top: 14px; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; overflow: hidden; background: rgba(255,255,255,.05); }
+.codebox input {
+  background: transparent; border: 0; outline: 0; color: #fff; padding: 9px 14px; width: 150px; font: 500 .85rem var(--sans);
+}
+.codebox input::placeholder { color: rgba(255,255,255,.5); }
+.codebox button {
+  border: 0; cursor: pointer; background: var(--ball); color: var(--navy); font: 700 .78rem var(--sans); letter-spacing: .08em;
+  text-transform: uppercase; padding: 0 16px;
+}
+.codebox:focus-within { border-color: var(--ball); box-shadow: 0 0 0 3px rgba(214,240,60,.2); }
+.codemsg { display: block; margin-top: 8px; color: rgba(255,255,255,.55); }
+@media (max-width: 720px) { .footer-in > div:last-child { text-align: left !important; } }
