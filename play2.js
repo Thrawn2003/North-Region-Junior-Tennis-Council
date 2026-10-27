@@ -153,10 +153,7 @@
     });
   })();
 
-  if (reduce) { // keep the quiet, non-moving parts only
-    wireSignoff();
-    return;
-  }
+  if (reduce) return; // everything below is motion
 
   // ---------- ball-shaped halo that trails the cursor ----------
   if (canHover) {
@@ -245,7 +242,7 @@
       if (!alive) return;
       alive = false; clearInterval(clock); clearTimeout(spawner);
       hud.classList.add("done");
-      hud.textContent = score ? "Game, set, match. " + score + " returned." : "Love-all. Fancy another go?";
+      hud.textContent = score ? "Game, set, match. " + score + " returned." : "No returns this time. Fancy another go?";
       setTimeout(function () { hud.remove(); playing = false; }, 3600);
     }
     clock = setInterval(function () { left--; draw(); if (left <= 0) finish(); }, 1000);
@@ -255,15 +252,6 @@
     launch();
   }
 
-  function wireSignoff() {
-    var s = document.querySelector(".signoff");
-    if (!s || reduce) return;
-    s.setAttribute("role", "button"); s.tabIndex = 0; s.title = "Fancy a rally?";
-    s.classList.add("playable");
-    s.addEventListener("click", serveGame);
-    s.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); serveGame(); } });
-  }
-  wireSignoff();
   window.NRTJC_codes = window.NRTJC_codes || {};
   window.NRTJC_codes.serve = serveGame;
 

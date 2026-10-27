@@ -441,7 +441,6 @@ img { max-width: 100%; }
 
 /* ---------- More whimsy ---------- */
 .btn:active { transform: scale(.96); }
-.signoff { font-family: var(--serif); color: var(--ball); font-size: 1rem; }
 
 /* a net between sections; a ball hops over it once */
 .net { position: relative; height: 46px; background: var(--cream); z-index: 2; }
@@ -634,9 +633,6 @@ html.wiping::before { content: ""; position: fixed; inset: 0; z-index: 998; back
 }
 .scoreboard > .wrap, .cta > .wrap, .section.dark > .wrap { position: relative; z-index: 1; }
 
-/* the "Love all." sign-off is a button */
-.signoff.playable { cursor: pointer; border-bottom: 1px dotted rgba(214,240,60,.6); }
-.signoff.playable:hover { color: #fff; }
 
 /* the Serve game */
 .sg-hud {
