@@ -55,7 +55,7 @@
     }, { threshold: [0, 0.8] }).observe(net);
   });
 
-  // ---------- home hero ball: tap it, or flick it ----------
+  // ---------- home hero ball: bounces on its own, relaunching each time it settles ----------
   var hero = document.querySelector(".hero");
   if (hero) initBall(hero);
 
@@ -64,20 +64,16 @@
     var shadow = hero.querySelector(".ball-shadow");
     if (reduce || !ball || !shadow) return;
 
-    // lift the ball out of the decorative court so it sits above the text and can take clicks
+    // move the ball out of the tilted court so it bounces in screen space
     hero.appendChild(shadow);
     hero.appendChild(ball);
     ball.classList.add("live");
     shadow.classList.add("live");
-    ball.setAttribute("role", "button");
-    ball.setAttribute("tabindex", "0");
-    ball.setAttribute("aria-label", "Tennis ball. Press to hit it.");
 
     var GRAVITY = 2300, REST = 0.8, WALL = 0.82;
     var R = ball.offsetWidth / 2 || 37;
     var W = 0, H = 0, floor = 0, ceil = 0;
     var x = 0, y = 0, vx = 0, vy = 0, rot = 0, squash = 0, restT = 0;
-    var dragging = false, samples = [], grab = { dx: 0, dy: 0 }, moved = 0, downAt = 0;
     var running = true, last = performance.now();
 
     function bounds() {
@@ -98,51 +94,6 @@
 
     // launch speed that fits the space available
     function pop() { return Math.min(1250, Math.sqrt(2 * GRAVITY * Math.max(floor - ceil, 1) * 0.8)); }
-    function hit() {
-      vy = -(pop() + Math.random() * pop() * 0.2);
-      vx = (Math.random() - 0.5) * 600;
-      squash = 0.12;
-    }
-
-    function pointerPos(e) {
-      var r = hero.getBoundingClientRect();
-      return { x: e.clientX - r.left, y: e.clientY - r.top };
-    }
-    ball.addEventListener("pointerdown", function (e) {
-      e.preventDefault();
-      ball.setPointerCapture(e.pointerId);
-      var p = pointerPos(e);
-      dragging = true; moved = 0; downAt = performance.now();
-      grab.dx = x - p.x; grab.dy = y - p.y;
-      vx = vy = 0;
-      samples = [{ t: downAt, x: x, y: y }];
-      ball.classList.add("held");
-    });
-    ball.addEventListener("pointermove", function (e) {
-      if (!dragging) return;
-      var p = pointerPos(e);
-      var nx = clamp(p.x + grab.dx, R, W - R), ny = clamp(p.y + grab.dy, ceil - 40, floor);
-      moved += Math.abs(nx - x) + Math.abs(ny - y);
-      x = nx; y = ny;
-      var now = performance.now();
-      samples.push({ t: now, x: x, y: y });
-      while (samples.length > 2 && now - samples[0].t > 90) samples.shift();
-    });
-    function release() {
-      if (!dragging) return;
-      dragging = false;
-      ball.classList.remove("held");
-      if (moved < 8 && performance.now() - downAt < 350) { hit(); return; }
-      var a = samples[0], b = samples[samples.length - 1];
-      var dt = Math.max((b.t - a.t) / 1000, 0.016);
-      vx = clamp((b.x - a.x) / dt, -2200, 2200);
-      vy = clamp((b.y - a.y) / dt, -2400, 2400);
-    }
-    ball.addEventListener("pointerup", release);
-    ball.addEventListener("pointercancel", release);
-    ball.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); hit(); }
-    });
 
     // leaving the hero and coming back drops the ball in fresh and redraws the court
     new IntersectionObserver(function (en) {
@@ -170,24 +121,22 @@
       var dt = Math.min((now - last) / 1000, 0.032);
       last = now;
 
-      if (!dragging) {
-        vy += GRAVITY * dt;
-        x += vx * dt; y += vy * dt;
-        if (x < R) { x = R; vx = Math.abs(vx) * WALL; }
-        if (x > W - R) { x = W - R; vx = -Math.abs(vx) * WALL; }
-        if (y < ceil) { y = ceil; vy = Math.abs(vy) * 0.5; }
-        if (y > floor) {
-          var impact = vy;
-          y = floor; vy = -vy * REST; vx *= 0.92;
-          if (impact > 250) squash = Math.min(impact / 1700, 0.34);
-          if (impact > 420) ripple(x, floor + R - 4);
-          if (Math.abs(vy) < 230) {
-            vy = 0; restT += dt;
-            if (restT > 0.8) { vy = -(pop() * 0.88 + Math.random() * pop() * 0.18); vx = (Math.random() - 0.5) * 120; restT = 0; }
-          } else { restT = 0; }
-        }
-        rot += (vx * dt / R) * 57.3;
+      vy += GRAVITY * dt;
+      x += vx * dt; y += vy * dt;
+      if (x < R) { x = R; vx = Math.abs(vx) * WALL; }
+      if (x > W - R) { x = W - R; vx = -Math.abs(vx) * WALL; }
+      if (y < ceil) { y = ceil; vy = Math.abs(vy) * 0.5; }
+      if (y > floor) {
+        var impact = vy;
+        y = floor; vy = -vy * REST; vx *= 0.92;
+        if (impact > 250) squash = Math.min(impact / 1700, 0.34);
+        if (impact > 420) ripple(x, floor + R - 4);
+        if (Math.abs(vy) < 230) {
+          vy = 0; restT += dt;
+          if (restT > 0.8) { vy = -(pop() * 0.88 + Math.random() * pop() * 0.18); vx = (Math.random() - 0.5) * 120; restT = 0; }
+        } else { restT = 0; }
       }
+      rot += (vx * dt / R) * 57.3;
       squash *= Math.max(0, 1 - dt * 11);
 
       var sy = 1 - squash, sx = 1 + squash * 0.5;

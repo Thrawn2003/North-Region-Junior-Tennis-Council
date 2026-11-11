@@ -395,11 +395,9 @@ img { max-width: 100%; }
 /* ---------- Motion (deliberately restrained) ---------- */
 /* hero ball is driven by fun.js; without JS the CSS bounce above still runs */
 .ball.live {
-  left: 0; top: 0; right: auto; z-index: 3; animation: none; cursor: grab; touch-action: none;
+  left: 0; top: 0; right: auto; z-index: 3; animation: none; pointer-events: none;
   will-change: transform; transform: translate(-200px, -200px);
 }
-.ball.live.held { cursor: grabbing; }
-.ball.live:focus-visible { outline: 3px solid var(--white); outline-offset: 4px; }
 .ball-shadow.live { left: 0; top: 0; right: auto; animation: none; z-index: 2; will-change: transform; transform: translate(-200px, -200px); }
 .ripple {
   position: absolute; width: 96px; height: 24px; margin: -12px 0 0 -48px; border-radius: 50%; z-index: 1; pointer-events: none;
