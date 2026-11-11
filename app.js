@@ -163,7 +163,7 @@
       var src = slides[i] && toEmbedUrl(slides[i].url);
       if (!src) {
         stage.appendChild(el("div", { class: "stage-msg" }, [
-          el("div", { class: "ico", text: "🎾" }),
+          el("div", { class: "ico", "aria-hidden": "true" }),
           el("b", { text: "Slide coming soon" }),
           el("span", { text: m.name + " hasn't linked this Canva slide yet." })
         ]));

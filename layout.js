@@ -72,7 +72,6 @@
   ]);
   right.style.textAlign = "right";
   document.body.appendChild(el("footer", { class: "footer" }, [
-    el("span", { class: "runner", "aria-hidden": "true" }),
     el("div", { class: "wrap footer-in" }, [left, right])
   ]));
 

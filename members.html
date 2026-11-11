@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <script>try{if(sessionStorage.getItem("nrtjc-wipe"))document.documentElement.classList.add("wiping")}catch(e){}</script>
 </head>
 <body data-page="members">
 <header class="page-hero"><div class="wrap">
@@ -17,7 +16,6 @@
   <h1>Meet our members.</h1>
   <p>Every member shares their story through Canva slides. Select a member to view their presentation right here.</p>
 </div></header>
-<div class="marquee" aria-hidden="true" data-words="Serve,Volley,Smash,Lob,Drop shot,Slice,Topspin"><div class="mq-track"></div></div>
 
 <main>
   <section class="section members-section">
@@ -28,7 +26,7 @@
       </div>
       <div class="member-grid" id="memberGrid"></div>
       <div class="empty-state" id="empty" hidden>
-        <div class="ico">🎾</div>
+        <div class="ico" aria-hidden="true"></div>
         <p id="noMatches" hidden>No members match your search.</p>
         <div id="noMembers" hidden>
           <h3>No member profiles yet</h3>
@@ -37,7 +35,6 @@
       </div>
     </div>
   </section>
-<div class="net" aria-hidden="true"><i></i></div>
 </main>
 <!-- SLIDE VIEWER -->
 <div class="modal" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerName" hidden>
@@ -90,6 +87,5 @@
 <script src="layout.js"></script>
 <script src="fun.js"></script>
 <script src="play.js"></script>
-<script src="play2.js"></script>
 </body>
 </html>
