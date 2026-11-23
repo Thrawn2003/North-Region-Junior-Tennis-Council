@@ -31,17 +31,14 @@
     update();
   })();
 
-  // ---------- gentle 3D tilt on cards ----------
-  (function tilt() {
-    if (reduce || !canHover) return;
-    document.querySelectorAll(".card, .value").forEach(function (c) {
-      c.addEventListener("pointermove", function (e) {
-        var r = c.getBoundingClientRect();
-        var px = (e.clientX - r.left) / r.width - 0.5;
-        var py = (e.clientY - r.top) / r.height - 0.5;
-        c.style.transform = "perspective(900px) rotateX(" + (-py * 3) + "deg) rotateY(" + (px * 4) + "deg) translateY(-6px)";
-      });
-      c.addEventListener("pointerleave", function () { c.style.transform = ""; });
+  // ---------- home hero: the court shifts slightly with the pointer ----------
+  (function parallax() {
+    var hero = document.querySelector(".hero");
+    if (!hero || reduce || !canHover) return;
+    hero.addEventListener("pointermove", function (e) {
+      var r = hero.getBoundingClientRect();
+      hero.style.setProperty("--px", ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+      hero.style.setProperty("--py", ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
     });
   })();
 
