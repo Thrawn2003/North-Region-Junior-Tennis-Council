@@ -460,3 +460,10 @@ img { max-width: 100%; }
 .band { padding: 76px 0; }
 @media (max-width: 720px) { .band { padding: 52px 0; } .footer-in > div:last-child { text-align: left !important; } }
 
+
+/* placeholder cards on Get involved: equal-height boxes with the button pinned to the bottom */
+.cards.light .card { display: flex; flex-direction: column; }
+.cards.light .card p { margin-bottom: 18px; }
+.cards.light .card .btn { margin-top: auto; align-self: flex-start; }
+.btn-black { background: #111; color: var(--white); }
+.btn-black:hover { background: #000; box-shadow: 0 10px 24px -8px rgba(0,0,0,.45); }
