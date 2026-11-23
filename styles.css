@@ -431,7 +431,7 @@ img { max-width: 100%; }
 .text-link { color: var(--court); font-weight: 600; text-decoration: none; }
 .text-link:hover { text-decoration: underline; }
 
-/* a net between sections; a ball clears it as it scrolls into view */
+/* a net between sections */
 .net { position: relative; height: 46px; background: var(--cream); z-index: 2; }
 .net::before {
   content: ""; position: absolute; left: 0; right: 0; top: 7px; bottom: 0;
@@ -443,20 +443,6 @@ img { max-width: 100%; }
 .net::after {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 7px;
   background: var(--white); border-bottom: 2px solid var(--navy);
-}
-.net i {
-  position: absolute; left: 5%; top: 0; width: 18px; height: 18px; border-radius: 50%; z-index: 3;
-  background: radial-gradient(circle at 32% 30%, #f1ff7a, var(--ball) 60%, var(--ball-dark));
-  box-shadow: 0 3px 8px rgba(0,0,0,.25); transform: translateY(26px);
-}
-.net.go i { animation: netX 1.9s linear forwards, netY 1.9s forwards; }
-@keyframes netX { to { left: 90%; } }
-@keyframes netY {
-  0%   { transform: translateY(26px); animation-timing-function: cubic-bezier(.2,.7,.4,1); }
-  45%  { transform: translateY(-58px); animation-timing-function: cubic-bezier(.6,0,.8,.4); }
-  78%  { transform: translateY(28px); animation-timing-function: cubic-bezier(.2,.7,.4,1); }
-  88%  { transform: translateY(10px); animation-timing-function: cubic-bezier(.6,0,.8,.4); }
-  100% { transform: translateY(28px); }
 }
 
 /* member avatars lift slightly on hover */

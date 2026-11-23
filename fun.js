@@ -31,16 +31,6 @@
     update();
   })();
 
-  // ---------- the ball that clears the net ----------
-  document.querySelectorAll(".net").forEach(function (net) {
-    if (reduce || !("IntersectionObserver" in window)) { net.classList.add("go"); return; }
-    new IntersectionObserver(function (en) {
-      var r = en[0].intersectionRatio;
-      if (r >= 0.8) net.classList.add("go");
-      else if (r === 0) net.classList.remove("go");
-    }, { threshold: [0, 0.8] }).observe(net);
-  });
-
   // ---------- home hero ball: bounces straight up and down on its own, relaunching each time it settles ----------
   var hero = document.querySelector(".hero");
   if (hero) initBall(hero);
