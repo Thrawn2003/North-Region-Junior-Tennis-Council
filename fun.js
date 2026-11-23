@@ -31,17 +31,6 @@
     update();
   })();
 
-  // ---------- home hero: the court shifts slightly with the pointer ----------
-  (function parallax() {
-    var hero = document.querySelector(".hero");
-    if (!hero || reduce || !canHover) return;
-    hero.addEventListener("pointermove", function (e) {
-      var r = hero.getBoundingClientRect();
-      hero.style.setProperty("--px", ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
-      hero.style.setProperty("--py", ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
-    });
-  })();
-
   // ---------- the ball that clears the net ----------
   document.querySelectorAll(".net").forEach(function (net) {
     if (reduce || !("IntersectionObserver" in window)) { net.classList.add("go"); return; }
@@ -52,7 +41,7 @@
     }, { threshold: [0, 0.8] }).observe(net);
   });
 
-  // ---------- home hero ball: bounces on its own, relaunching each time it settles ----------
+  // ---------- home hero ball: bounces straight up and down on its own, relaunching each time it settles ----------
   var hero = document.querySelector(".hero");
   if (hero) initBall(hero);
 
@@ -67,10 +56,10 @@
     ball.classList.add("live");
     shadow.classList.add("live");
 
-    var GRAVITY = 2300, REST = 0.8, WALL = 0.82;
+    var GRAVITY = 2300, REST = 0.8;
     var R = ball.offsetWidth / 2 || 37;
     var W = 0, H = 0, floor = 0, ceil = 0;
-    var x = 0, y = 0, vx = 0, vy = 0, rot = 0, squash = 0, restT = 0;
+    var x = 0, y = 0, vy = 0, squash = 0, restT = 0;
     var running = true, last = performance.now();
 
     function bounds() {
@@ -83,11 +72,11 @@
     }
     function reset() {
       x = W - Math.max(70, W * 0.16) - R; y = ceil;
-      vx = vy = 0; squash = 0; restT = 0;
+      vy = 0; squash = 0; restT = 0;
     }
     bounds();
     reset();
-    window.addEventListener("resize", function () { bounds(); x = clamp(x, R, W - R); y = clamp(y, ceil, floor); });
+    window.addEventListener("resize", function () { bounds(); x = W - Math.max(70, W * 0.16) - R; y = clamp(y, ceil, floor); });
 
     // launch speed that fits the space available
     function pop() { return Math.min(1250, Math.sqrt(2 * GRAVITY * Math.max(floor - ceil, 1) * 0.8)); }
@@ -119,25 +108,22 @@
       last = now;
 
       vy += GRAVITY * dt;
-      x += vx * dt; y += vy * dt;
-      if (x < R) { x = R; vx = Math.abs(vx) * WALL; }
-      if (x > W - R) { x = W - R; vx = -Math.abs(vx) * WALL; }
+      y += vy * dt;
       if (y < ceil) { y = ceil; vy = Math.abs(vy) * 0.5; }
       if (y > floor) {
         var impact = vy;
-        y = floor; vy = -vy * REST; vx *= 0.92;
+        y = floor; vy = -vy * REST;
         if (impact > 250) squash = Math.min(impact / 1700, 0.34);
         if (impact > 420) ripple(x, floor + R - 4);
         if (Math.abs(vy) < 230) {
           vy = 0; restT += dt;
-          if (restT > 0.8) { vy = -(pop() * 0.88 + Math.random() * pop() * 0.18); vx = (Math.random() - 0.5) * 120; restT = 0; }
+          if (restT > 0.8) { vy = -pop() * 0.95; restT = 0; }
         } else { restT = 0; }
       }
-      rot += (vx * dt / R) * 57.3;
       squash *= Math.max(0, 1 - dt * 11);
 
       var sy = 1 - squash, sx = 1 + squash * 0.5;
-      ball.style.transform = "translate(" + (x - R) + "px," + (y - R + squash * R) + "px) rotate(" + rot + "deg) scale(" + sx + "," + sy + ")";
+      ball.style.transform = "translate(" + (x - R) + "px," + (y - R + squash * R) + "px) scale(" + sx + "," + sy + ")";
 
       var t = clamp(1 - (floor - y) / Math.max(floor - ceil, 1), 0, 1);
       shadow.style.transform = "translate(" + (x - shadow.offsetWidth / 2) + "px," + (floor + R - 10) + "px) scale(" + (0.4 + 0.6 * t) + ")";

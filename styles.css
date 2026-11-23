@@ -404,11 +404,10 @@ img { max-width: 100%; }
   border: 2px solid rgba(214,240,60,.7);
 }
 
-/* court lines draw in, and redraw when the hero comes back into view; slight parallax with the pointer */
+/* court lines draw in, and redraw when the hero comes back into view */
 .court-lines { animation: courtIn 1.6s cubic-bezier(.2,.7,.2,1) both; }
 @keyframes courtIn { from { opacity: 0; transform: translateX(-50%) rotateX(62deg) translateY(60px) scale(.94); } }
 .hero.out .court-lines { animation: none; opacity: 0; }
-.hero .court { transform: translate(calc(var(--px, 0) * -16px), calc(var(--py, 0) * -8px)); transition: transform .4s ease-out; }
 
 /* thin scroll line with a rolling ball */
 .progress { position: fixed; z-index: 60; left: 0; right: 0; top: 0; height: 14px; pointer-events: none; }
