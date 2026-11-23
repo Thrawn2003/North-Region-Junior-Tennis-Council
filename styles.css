@@ -348,7 +348,8 @@ img { max-width: 100%; }
 }
 .page-hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); max-width: 18ch; }
 .page-hero p { max-width: 58ch; color: rgba(255,255,255,.82); font-size: 1.1rem; margin: 18px 0 0; }
-.hero-simple { min-height: 92vh; }
+/* fill the whole screen; svh keeps it exact on phones where the browser bar resizes */
+.hero-simple { min-height: 100vh; min-height: 100svh; }
 
 .values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
 .value {
